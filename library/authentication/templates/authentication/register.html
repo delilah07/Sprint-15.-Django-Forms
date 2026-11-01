@@ -12,10 +12,16 @@
             <p>Create your account and discover your next favourite book.</p>
         </div>
 
-        {% if errors %}
+        {% if form.errors %}
             <div class="message message-error">
                 <ul class="form-errors">
-                    {% for error in errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
                         <li>{{ error }}</li>
                     {% endfor %}
                 </ul>
@@ -27,100 +33,43 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="first_name">First name</label>
-                    <input
-                        id="first_name"
-                        type="text"
-                        name="first_name"
-                        maxlength="20"
-                        autocomplete="given-name"
-                        value="{{ form_data.first_name|default:'' }}"
-                        placeholder="First name"
-                        required
-                    >
+                    <label for="{{ form.first_name.id_for_label }}">First name</label>
+                    {{ form.first_name }}
                 </div>
 
                 <div class="form-group">
-                    <label for="last_name">Last name</label>
-                    <input
-                        id="last_name"
-                        type="text"
-                        name="last_name"
-                        maxlength="20"
-                        autocomplete="family-name"
-                        value="{{ form_data.last_name|default:'' }}"
-                        placeholder="Last name"
-                        required
-                    >
+                    <label for="{{ form.last_name.id_for_label }}">Last name</label>
+                    {{ form.last_name }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="middle_name">
+                <label for="{{ form.middle_name.id_for_label }}">
                     Middle name <span class="optional-label">(optional)</span>
                 </label>
-                <input
-                    id="middle_name"
-                    type="text"
-                    name="middle_name"
-                    maxlength="20"
-                    value="{{ form_data.middle_name|default:'' }}"
-                    placeholder="Middle name"
-                >
+                {{ form.middle_name }}
             </div>
 
             <div class="form-group">
-                <label for="email">Email address</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    maxlength="100"
-                    autocomplete="email"
-                    value="{{ form_data.email|default:'' }}"
-                    placeholder="you@example.com"
-                    required
-                >
+                <label for="{{ form.email.id_for_label }}">Email address</label>
+                {{ form.email }}
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        autocomplete="new-password"
-                        placeholder="Create a password"
-                        required
-                    >
+                    <label for="{{ form.password.id_for_label }}">Password</label>
+                    {{ form.password }}
                 </div>
 
                 <div class="form-group">
-                    <label for="password_confirm">Confirm password</label>
-                    <input
-                        id="password_confirm"
-                        type="password"
-                        name="password_confirm"
-                        autocomplete="new-password"
-                        placeholder="Repeat password"
-                        required
-                    >
+                    <label for="{{ form.password_confirm.id_for_label }}">Confirm password</label>
+                    {{ form.password_confirm }}
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="role">Register as</label>
-                <select id="role" name="role" required>
-                    <option value="0"
-                        {% if form_data.role == "0" or not form_data.role %}selected{% endif %}>
-                        Guest
-                    </option>
-                    <option value="1"
-                        {% if form_data.role == "1" %}selected{% endif %}>
-                        Librarian
-                    </option>
-                </select>
+                <label for="{{ form.role.id_for_label }}">Register as</label>
+                {{ form.role }}
             </div>
 
             <button class="button button-large auth-submit" type="submit">
